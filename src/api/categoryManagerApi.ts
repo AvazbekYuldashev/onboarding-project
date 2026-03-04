@@ -1,0 +1,92 @@
+import axios, { type AxiosRequestConfig } from "axios";
+import { apiClient } from "@/api/client";
+import { getAppLanguage } from "@/features/auth/language";
+import type { AppResponse } from "@/types/auth";
+import type { CategoryResponseDTO } from "@/types/categoryOwner";
+import type { CategoryManagerCreateDTO, CategoryManagerUpdateDTO } from "@/types/categoryManager";
+
+const CATEGORY_MANAGER_BASE_PATH = "/api/v1/category-manager";
+type UnknownRecord = Record<string, unknown>;
+
+function isRecord(value: unknown): value is UnknownRecord {
+  return typeof value === "object" && value !== null;
+}
+
+function readString(value: unknown, fallback = ""): string {
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  return fallback;
+}
+
+function extractErrorMessage(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (!isRecord(value)) return "";
+  return readString(value.message ?? value.error ?? value.detail);
+}
+
+function parseAxiosError(error: unknown, fallbackMessage: string): Error {
+  if (!axios.isAxiosError(error)) return new Error(fallbackMessage);
+  const responseMessage = extractErrorMessage(error.response?.data);
+  if (responseMessage) return new Error(responseMessage);
+  if (error.response?.status === 401) return new Error("Unauthorized request.");
+  if (error.response?.status === 403) return new Error("Forbidden request.");
+  return new Error(fallbackMessage);
+}
+
+function withLanguage(): AxiosRequestConfig {
+  return {
+    headers: {
+      "Accept-Language": getAppLanguage(),
+    },
+  };
+}
+
+function normalizeMessageResponse(payload: unknown, fallbackMessage: string): string {
+  if (typeof payload === "string") return payload;
+  if (!isRecord(payload)) return fallbackMessage;
+  return readString(payload.message ?? payload.data ?? payload.result ?? payload.content, fallbackMessage);
+}
+
+function normalizeCategory(payload: unknown): CategoryResponseDTO {
+  if (!isRecord(payload)) {
+    throw new Error("Invalid category response.");
+  }
+
+  return {
+    id: readString(payload.id),
+    title: readString(payload.title),
+    description: readString(payload.description),
+    departmentId: readString(payload.departmentId),
+    buildingId: readString(payload.buildingId),
+    visible: typeof payload.visible === "boolean" ? payload.visible : undefined,
+    createdDate: readString(payload.createdDate) || undefined,
+    updatedDate: readString(payload.updatedDate) || undefined,
+  };
+}
+
+export async function createManagerCategory(payload: CategoryManagerCreateDTO): Promise<CategoryResponseDTO> {
+  try {
+    const response = await apiClient.post<unknown>(
+      `${CATEGORY_MANAGER_BASE_PATH}/create`,
+      payload,
+      withLanguage(),
+    );
+    return normalizeCategory(response.data);
+  } catch (error) {
+    throw parseAxiosError(error, "Failed to create category.");
+  }
+}
+
+export async function updateManagerCategory(payload: CategoryManagerUpdateDTO): Promise<string> {
+  try {
+    const response = await apiClient.put<AppResponse<string>>(
+      `${CATEGORY_MANAGER_BASE_PATH}/update`,
+      payload,
+      withLanguage(),
+    );
+    return normalizeMessageResponse(response.data, "Category updated.");
+  } catch (error) {
+    throw parseAxiosError(error, "Failed to update category.");
+  }
+}
+
