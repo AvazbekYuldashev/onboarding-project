@@ -1,7 +1,7 @@
-﻿import { useQueries, useQuery } from "@tanstack/react-query";
-import { Eye, FileText, Loader2, X } from "lucide-react";
+﻿import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
+import { CheckCircle2, Eye, FileText, Loader2, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { getMyApplications } from "@/api/applicationCoreApi";
+import { getMyApplications, updateMyApplicationStatus } from "@/api/applicationCoreApi";
 import { getBuildingById } from "@/api/buildingCoreApi";
 import { getCategoryById } from "@/api/categoryCoreApi";
 import { getDepartmentById } from "@/api/departmentCoreApi";
@@ -15,17 +15,29 @@ import { Select } from "@/components/ui/select";
 import { useI18n } from "@/features/i18n/messages";
 import type { ApplicationResponseDTO, ApplicationStatus } from "@/types/applicationOwner";
 
+const APPLICATION_STATUSES: ApplicationStatus[] = [
+  "SENT",
+  "APPROVED",
+  "REJECTED",
+  "IN_PROGRESS",
+  "REVIEW",
+  "DENIED",
+  "COMPLETED",
+];
+
 function Message({
   type,
   children,
 }: {
-  type: "error" | "info";
+  type: "success" | "error" | "info";
   children: React.ReactNode;
 }) {
   const classes =
-    type === "error"
-      ? "border-danger/40 bg-danger/10 text-danger"
-      : "border-border bg-muted/50 text-muted-foreground";
+    type === "success"
+      ? "border-success/40 bg-success/10 text-success"
+      : type === "error"
+        ? "border-danger/40 bg-danger/10 text-danger"
+        : "border-border bg-muted/50 text-muted-foreground";
 
   return <div className={`rounded-md border px-3 py-2 text-sm ${classes}`}>{children}</div>;
 }
@@ -61,15 +73,39 @@ export function UserApplicationsPage() {
   const { language, t } = useI18n();
   const tr = (en: string, uz: string, ru: string) =>
     language === "UZ" ? uz : language === "RU" ? ru : en;
+  const queryClient = useQueryClient();
 
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
   const [selectedApplication, setSelectedApplication] = useState<ApplicationResponseDTO | null>(null);
+  const [statusMap, setStatusMap] = useState<Record<string, ApplicationStatus>>({});
+  const [actionMessage, setActionMessage] = useState("");
+  const [actionError, setActionError] = useState("");
 
   const applicationsQuery = useQuery({
     queryKey: ["user-applications", page, size],
     queryFn: () => getMyApplications(page, size),
     staleTime: 30_000,
+  });
+  const updateStatusMutation = useMutation({
+    mutationFn: updateMyApplicationStatus,
+    onSuccess: (message) => {
+      setActionError("");
+      setActionMessage(message);
+      queryClient.invalidateQueries({ queryKey: ["user-applications"] });
+    },
+    onError: (error) => {
+      setActionMessage("");
+      setActionError(
+        error instanceof Error
+          ? error.message
+          : tr(
+              "Failed to update application status.",
+              "Ariza holatini yangilab bo'lmadi.",
+              "Не удалось обновить статус заявки.",
+            ),
+      );
+    },
   });
 
   const departmentDetailQuery = useQuery({
@@ -171,6 +207,20 @@ export function UserApplicationsPage() {
   const totalPages = Math.max(applicationsQuery.data?.totalPages ?? 1, 1);
   const totalElements = applicationsQuery.data?.totalElements ?? 0;
 
+  const pickStatus = (application: ApplicationResponseDTO): ApplicationStatus => {
+    const selected = statusMap[application.id];
+    return selected ?? application.status ?? "SENT";
+  };
+  const saveStatus = (application: ApplicationResponseDTO) => {
+    const id = application.id.trim();
+    if (!id) {
+      setActionMessage("");
+      setActionError(tr("Application id is required.", "Ariza id majburiy.", "Требуется id заявки."));
+      return;
+    }
+    updateStatusMutation.mutate({ id, status: pickStatus(application) });
+  };
+
   return (
     <section className="mx-auto max-w-6xl space-y-5">
       <Card className="border-border/80 bg-card/95 backdrop-blur">
@@ -193,6 +243,8 @@ export function UserApplicationsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          {actionMessage ? <Message type="success">{actionMessage}</Message> : null}
+          {actionError ? <Message type="error">{actionError}</Message> : null}
           {applicationsQuery.isLoading ? (
             <Message type="info">
               <span className="inline-flex items-center gap-2">
@@ -215,6 +267,7 @@ export function UserApplicationsPage() {
                 <tr>
                   <th className="px-3 py-2">{tr("Title", "Nomi", "Название")}</th>
                   <th className="px-3 py-2">{tr("Status", "Holat", "Статус")}</th>
+                  <th className="px-3 py-2">{tr("Change status", "Holatni o'zgartirish", "Изменить статус")}</th>
                   <th className="px-3 py-2">{tr("Category", "Kategoriya", "Категория")}</th>
                   <th className="px-3 py-2">{tr("Service", "Xizmat", "Услуга")}</th>
                   <th className="px-3 py-2">{tr("Created", "Yaratilgan", "Создано")}</th>
@@ -226,6 +279,38 @@ export function UserApplicationsPage() {
                   <tr key={application.id} className="border-t border-border/70">
                     <td className="px-3 py-2">{application.title || "-"}</td>
                     <td className="px-3 py-2">{statusLabel(application.status, tr)}</td>
+                    <td className="px-3 py-2">
+                      <div className="flex min-w-[14rem] items-center gap-2">
+                        <Select
+                          value={pickStatus(application)}
+                          onChange={(event) =>
+                            setStatusMap((previous) => ({
+                              ...previous,
+                              [application.id]: event.target.value as ApplicationStatus,
+                            }))
+                          }
+                        >
+                          {APPLICATION_STATUSES.map((status) => (
+                            <option key={status} value={status}>
+                              {statusLabel(status, tr)}
+                            </option>
+                          ))}
+                        </Select>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          disabled={updateStatusMutation.isPending}
+                          onClick={() => saveStatus(application)}
+                        >
+                          {updateStatusMutation.isPending ? (
+                            <Loader2 className="size-4 animate-spin" aria-hidden />
+                          ) : (
+                            <CheckCircle2 className="size-4" aria-hidden />
+                          )}
+                          {tr("Save", "Saqlash", "Сохранить")}
+                        </Button>
+                      </div>
+                    </td>
                     <td className="px-3 py-2">{application.categoryTitle || (application.categoryId ? categoryTitleById.get(application.categoryId) ?? application.categoryId : "-")}</td>
                     <td className="px-3 py-2">{application.offeringTitle || (application.offeringId ? offeringTitleById.get(application.offeringId) ?? application.offeringId : "-")}</td>
                     <td className="px-3 py-2">{formatDateTime(application.createdDate)}</td>
@@ -239,7 +324,7 @@ export function UserApplicationsPage() {
                 ))}
                 {!applicationsQuery.isLoading && applications.length === 0 ? (
                   <tr>
-                    <td className="px-3 py-6 text-center text-muted-foreground" colSpan={6}>
+                    <td className="px-3 py-6 text-center text-muted-foreground" colSpan={7}>
                       {tr("No applications found.", "Arizalar topilmadi.", "Заявки не найдены.")}
                     </td>
                   </tr>
@@ -340,5 +425,3 @@ export function UserApplicationsPage() {
     </section>
   );
 }
-
-

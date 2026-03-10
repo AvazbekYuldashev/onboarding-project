@@ -1,7 +1,14 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import { apiClient } from "@/api/client";
 import { getAppLanguage } from "@/features/auth/language";
-import type { ApplicationCreateDTO, ApplicationPageResponse, ApplicationResponseDTO, ApplicationStatus } from "@/types/applicationOwner";
+import type { AppResponse } from "@/types/auth";
+import type {
+  ApplicationCreateDTO,
+  ApplicationPageResponse,
+  ApplicationResponseDTO,
+  ApplicationStatus,
+  ApplicationStatusDTO,
+} from "@/types/applicationOwner";
 
 const APPLICATION_CORE_BASE_PATH = "/api/v1/application-core";
 const APPLICATION_STATUSES: ApplicationStatus[] = [
@@ -60,6 +67,12 @@ function withLanguage(): AxiosRequestConfig {
 function normalizeStatus(value: unknown): ApplicationStatus | undefined {
   if (typeof value !== "string") return undefined;
   return APPLICATION_STATUSES.includes(value as ApplicationStatus) ? (value as ApplicationStatus) : undefined;
+}
+
+function normalizeMessageResponse(payload: unknown, fallbackMessage: string): string {
+  if (typeof payload === "string") return payload;
+  if (!isRecord(payload)) return fallbackMessage;
+  return readString(payload.message ?? payload.data ?? payload.result ?? payload.content, fallbackMessage);
 }
 
 function normalizeApplication(payload: unknown): ApplicationResponseDTO {
@@ -140,5 +153,18 @@ export async function createApplication(payload: ApplicationCreateDTO): Promise<
     return normalizeApplication(response.data);
   } catch (error) {
     throw parseAxiosError(error, "Failed to create application.");
+  }
+}
+
+export async function updateMyApplicationStatus(payload: ApplicationStatusDTO): Promise<string> {
+  try {
+    const response = await apiClient.patch<AppResponse<string>>(
+      `${APPLICATION_CORE_BASE_PATH}/status`,
+      payload,
+      withLanguage(),
+    );
+    return normalizeMessageResponse(response.data, "Application status updated.");
+  } catch (error) {
+    throw parseAxiosError(error, "Failed to update application status.");
   }
 }
