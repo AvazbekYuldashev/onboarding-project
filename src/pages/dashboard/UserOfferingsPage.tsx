@@ -29,6 +29,24 @@ function Message({
         : "border-border bg-muted/50 text-muted-foreground";
 
   return <div className={`rounded-md border px-3 py-2 text-sm ${classes}`}>{children}</div>;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 interface FilterState {
