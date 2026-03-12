@@ -1,17 +1,26 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { LanguageToggle } from "@/components/theme/LanguageToggle";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { useI18n } from "@/features/i18n/messages";
 import { cn } from "@/lib/cn";
 
-const AUTH_NAV_LINKS = [
-  { to: "/auth/register", label: "Register" },
-  { to: "/auth/login", label: "Login" },
-  { to: "/auth/verification/resend", label: "Resend Verify" },
-  { to: "/auth/password/reset", label: "Reset Password" },
-  { to: "/auth/password/confirm", label: "Confirm Reset" },
-];
-
 export function AuthLayout() {
+  const { language } = useI18n();
+  const tr = (en: string, uz: string, ru: string) =>
+    language === "UZ" ? uz : language === "RU" ? ru : en;
+
+  const AUTH_NAV_LINKS = [
+    { to: "/auth/register", label: tr("Register", "Ro'yxatdan o'tish", "Регистрация") },
+    { to: "/auth/login", label: tr("Login", "Kirish", "Вход") },
+    { to: "/auth/verification", label: tr("Verify", "Tasdiqlash", "Подтвердить") },
+    {
+      to: "/auth/verification/resend",
+      label: tr("Resend Verify", "Qayta yuborish", "Повторить"),
+    },
+    { to: "/auth/password/reset", label: tr("Reset Password", "Parolni tiklash", "Сброс пароля") },
+    { to: "/auth/password/confirm", label: tr("Confirm Reset", "Tiklashni tasdiqlash", "Подтвердить сброс") },
+  ];
+
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">

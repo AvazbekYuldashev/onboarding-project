@@ -74,7 +74,11 @@ export function LoginForm() {
       <CardHeader className="space-y-2">
         <CardTitle className="text-xl">{tr("Login", "Kirish", "Вход")}</CardTitle>
         <CardDescription>
-          {tr("Backend endpoint:", "Backend endpoint:", "Backend endpoint:")} <span className="font-medium">POST /api/v1/auth/login</span>
+          {tr(
+            "Sign in with your username and password.",
+            "Username va parol bilan tizimga kiring.",
+            "Войдите с помощью username и пароля.",
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">

@@ -55,10 +55,11 @@ export function ResendVerificationForm() {
       <CardHeader className="space-y-2">
         <CardTitle className="text-xl">{tr("Resend verification", "Tasdiqlashni qayta yuborish", "Повторная отправка подтверждения")}</CardTitle>
         <CardDescription>
-          {tr("Backend endpoint:", "Backend endpoint:", "Backend endpoint:")}
-          <span className="ml-1 font-medium">
-            POST /api/v1/auth/registration/email-verification-resend
-          </span>
+          {tr(
+            "Request a new verification code for your account.",
+            "Akkauntingiz uchun yangi tasdiqlash kodini so'rang.",
+            "Запросите новый код подтверждения для аккаунта.",
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">

@@ -80,11 +80,7 @@ export const router = createBrowserRouter([
         element: <VerificationResendPage />,
       },
       {
-        path: "verification/:token",
-        element: <EmailVerificationPage />,
-      },
-      {
-        path: "verification/:token/:lang",
+        path: "verification",
         element: <EmailVerificationPage />,
       },
       {

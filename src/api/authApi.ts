@@ -141,17 +141,18 @@ export async function registerUser(
   }
 }
 
-export async function verifyRegistrationEmail(
-  token: string,
+export async function verifyRegistrationCode(
+  username: string,
+  code: string,
 ): Promise<RegistrationResponse> {
   try {
-    const language = getAppLanguage();
     const response = await apiClient.get(
-      `${AUTH_BASE_PATH}/registration/email-verification/${encodeURIComponent(token)}/${language}`,
+      `${AUTH_BASE_PATH}/registration/email-verification/${encodeURIComponent(username)}/${encodeURIComponent(code)}`,
+      withLanguage(),
     );
-    return normalizeMessageResponse(response.data, "Email verification successful.");
+    return normalizeMessageResponse(response.data, "Verification successful.");
   } catch (error) {
-    throw parseAxiosError(error, "Email verification failed.");
+    throw parseAxiosError(error, "Verification failed.");
   }
 }
 

@@ -10,40 +10,48 @@ export function RegisterPage() {
 
   return (
     <AuthShell
-      badge={tr("Auth Module", "Autentifikatsiya moduli", "Модуль аутентификации")}
-      title={tr("Start with account registration", "Akkaunt ro'yxatdan o'tkazishdan boshlang", "Начните с регистрации аккаунта")}
-      description={tr(
-        "Frontend is aligned with your backend AuthController contract for registration and verification flow.",
-        "Frontend registration va verification oqimi bo'yicha backend AuthController contractiga moslangan.",
-        "Frontend согласован с backend AuthController для flow регистрации и верификации.",
+      badge={tr("Auth Module", "Autentifikatsiya moduli", "РњРѕРґСѓР»СЊ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё")}
+      title={tr(
+        "Start with account registration",
+        "Akkaunt ro'yxatdan o'tkazishdan boshlang",
+        "РќР°С‡РЅРёС‚Рµ СЃ СЂРµРіРёСЃС‚СЂР°С†РёРё Р°РєРєР°СѓРЅС‚Р°",
       )}
-      nextStep={tr("email verification", "email tasdiqlash", "подтверждение email")}
+      description={tr(
+        "Frontend is aligned with your backend AuthController contract for registration and code verification flow.",
+        "Frontend registration va kod orqali verification oqimi bo'yicha backend AuthController contractiga moslangan.",
+        "Frontend СЃРѕРіР»Р°СЃРѕРІР°РЅ С backend AuthController РґР»СЏ flow СЂРµРіРёСЃС‚СЂР°С†РёРё Рё РІРµСЂРёС„РёРєР°С†РёРё РїРѕ РєРѕРґСѓ.",
+      )}
+      nextStep={tr("code verification", "kodni tasdiqlash", "РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РєРѕРґР°")}
       points={[
         {
           icon: UserRoundPlus,
-          title: tr("Registration DTO compatible", "Registration DTO mos", "Совместимо с Registration DTO"),
+          title: tr(
+            "Registration DTO compatible",
+            "Registration DTO mos",
+            "РЎРѕРІРјРµСЃС‚РёРјРѕ СЃ Registration DTO",
+          ),
           description: tr(
             "Payload fields are exactly: name, surname, username, password.",
             "Payload maydonlari aniq: name, surname, username, password.",
-            "Поля payload строго: name, surname, username, password.",
+            "РџРѕР»СЏ payload СЃС‚СЂРѕРіРѕ: name, surname, username, password.",
           ),
         },
         {
           icon: MailCheck,
-          title: tr("Verification ready", "Verification tayyor", "Верификация готова"),
+          title: tr("Verification ready", "Verification tayyor", "Р’РµСЂРёС„РёРєР°С†РёСЏ РіРѕС‚РѕРІР°"),
           description: tr(
-            "After successful registration, continue with email verification endpoints.",
-            "Muvaffaqiyatli ro'yxatdan o'tgach, email verification endpointlari bilan davom eting.",
-            "После успешной регистрации продолжайте через endpoints email verification.",
+            "After successful registration, continue with code verification.",
+            "Muvaffaqiyatli ro'yxatdan o'tgach, kodni tasdiqlash bilan davom eting.",
+            "РџРѕСЃР»Рµ СѓСЃРїРµС€РЅРѕР№ СЂРµРіРёСЃС‚СЂР°С†РёРё РїСЂРѕРґРѕР»Р¶Р°Р№С‚Рµ С‡РµСЂРµР· РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РєРѕРґР°.",
           ),
         },
         {
           icon: KeyRound,
-          title: tr("Auth flow ready", "Auth flow tayyor", "Auth flow готов"),
+          title: tr("Auth flow ready", "Auth flow tayyor", "Auth flow РіРѕС‚РѕРІ"),
           description: tr(
             "Login and reset password flows are available as separate modules.",
             "Login va reset password oqimlari alohida modullar sifatida mavjud.",
-            "Login и reset password доступны как отдельные модули.",
+            "Login Рё reset password РґРѕСЃС‚СѓРїРЅС‹ РєР°Рє РѕС‚РґРµР»СЊРЅС‹Рµ РјРѕРґСѓР»Рё.",
           ),
         },
       ]}

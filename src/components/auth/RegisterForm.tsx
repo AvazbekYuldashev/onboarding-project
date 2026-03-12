@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { Loader2, ShieldCheck } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "@/api/authApi";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -85,6 +86,7 @@ export function RegisterForm() {
   const setPendingRegistrationUsername = useAuthStore(
     (state) => state.setPendingRegistrationUsername,
   );
+  const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: async (currentForm: RegisterFormState) => registerUser(toPayload(currentForm)),
@@ -95,6 +97,7 @@ export function RegisterForm() {
         password: "",
         confirmPassword: "",
       }));
+      navigate("/auth/verification");
     },
   });
 
@@ -142,7 +145,11 @@ export function RegisterForm() {
       <CardHeader className="space-y-2">
         <CardTitle className="text-xl">{tr("Create account", "Akkaunt yaratish", "Создать аккаунт")}</CardTitle>
         <CardDescription>
-          {tr("Backend endpoint:", "Backend endpoint:", "Backend endpoint:")} <span className="font-medium">POST /api/v1/auth/registration</span>
+          {tr(
+            "Create your account to continue.",
+            "Davom etish uchun akkaunt yarating.",
+            "Создайте аккаунт, чтобы продолжить.",
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">

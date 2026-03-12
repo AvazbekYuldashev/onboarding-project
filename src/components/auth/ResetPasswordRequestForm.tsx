@@ -55,7 +55,11 @@ export function ResetPasswordRequestForm() {
       <CardHeader className="space-y-2">
         <CardTitle className="text-xl">{tr("Reset password request", "Parolni tiklash so'rovi", "Запрос сброса пароля")}</CardTitle>
         <CardDescription>
-          {tr("Backend endpoint:", "Backend endpoint:", "Backend endpoint:")} <span className="font-medium">POST /api/v1/auth/reset-password</span>
+          {tr(
+            "Send a reset code to your account.",
+            "Akkauntingizga tiklash kodini yuboring.",
+            "Отправьте код сброса на ваш аккаунт.",
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">

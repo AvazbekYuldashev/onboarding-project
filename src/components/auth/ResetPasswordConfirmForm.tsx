@@ -123,8 +123,11 @@ export function ResetPasswordConfirmForm() {
       <CardHeader className="space-y-2">
         <CardTitle className="text-xl">{tr("Reset password confirm", "Parolni tiklashni tasdiqlash", "Подтверждение сброса пароля")}</CardTitle>
         <CardDescription>
-          {tr("Backend endpoint:", "Backend endpoint:", "Backend endpoint:")}
-          <span className="ml-1 font-medium">POST /api/v1/auth/reset-password-confirm</span>
+          {tr(
+            "Confirm reset with the code you received.",
+            "Olingan kod bilan tiklashni tasdiqlang.",
+            "Подтвердите сброс полученным кодом.",
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">
