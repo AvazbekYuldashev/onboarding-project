@@ -33,10 +33,10 @@ export function AuthLayout() {
         <div className="container flex flex-col gap-3 py-4 md:h-24 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              Onboarding Platform
+              Raqamli ta'lim texnalogialari
             </p>
             <h1 className="truncate text-2xl font-semibold tracking-tight md:text-3xl">
-              PulseBoard Auth
+              KPI tizimi
             </h1>
           </div>
 

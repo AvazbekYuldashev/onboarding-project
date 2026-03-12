@@ -2,9 +2,7 @@ import axios from "axios";
 
 const ENV_API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.trim() || "";
 
-export const API_BASE_URL = import.meta.env.DEV
-  ? "/"
-  : ENV_API_BASE_URL || "/";
+export const API_BASE_URL = ENV_API_BASE_URL || "/";
 const SESSION_STORAGE_KEY = "pulseboard-session";
 
 function readJwtFromSession(): string | null {
