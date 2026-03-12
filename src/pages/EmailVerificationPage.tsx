@@ -119,37 +119,37 @@ export function EmailVerificationPage() {
         "Подтвердите регистрацию",
       )}
       description={tr(
-        "Confirm registration with a verification code received from backend.",
-        "Backenddan kelgan tasdiqlash kodi bilan ro'yxatdan o'tishni tasdiqlang.",
-        "Подтвердите регистрацию кодом подтверждения от backend.",
+        "Enter the verification code to activate your account.",
+        "Akkauntni faollashtirish uchun tasdiqlash kodini kiriting.",
+        "Введите код подтверждения, чтобы активировать аккаунт.",
       )}
       nextStep={tr("login to dashboard", "dashboardga kirish", "войти в дашборд")}
       points={[
         {
           icon: MailCheck,
-          title: tr("Code verification", "Kod orqali tasdiqlash", "Подтверждение по коду"),
+          title: tr("Enter the code", "Kodni kiriting", "Введите код"),
           description: tr(
-            "Use the code sent to your email/username.",
-            "Email/usernamega yuborilgan kodni kiriting.",
-            "Введите код, отправленный на email/username.",
+            "We sent a code after registration. Type it here.",
+            "Ro'yxatdan o'tgandan keyin kod yuborilgan. Shu yerga kiriting.",
+            "Мы отправили код после регистрации. Введите его здесь.",
           ),
         },
         {
           icon: ShieldCheck,
-          title: tr("Secure flow", "Xavfsiz oqim", "Безопасный процесс"),
+          title: tr("No code?", "Kod kelmadimi?", "Код не пришёл?"),
           description: tr(
-            "Verification is required before login.",
-            "Kirishdan oldin tasdiqlash talab qilinadi.",
-            "Перед входом требуется подтверждение.",
+            "You can resend the code if it didn't arrive.",
+            "Agar kod kelmasa, qayta yuborishingiz mumkin.",
+            "Если код не пришёл, можно отправить его снова.",
           ),
         },
         {
           icon: KeyRound,
-          title: tr("Language aware", "Tilga mos", "С учётом языка"),
+          title: tr("Finish and sign in", "Yakunlang va kiring", "Завершите и войдите"),
           description: tr(
-            "Language is controlled globally from the header toggle.",
-            "Til header dagi global toggle orqali boshqariladi.",
-            "Язык управляется глобальным переключателем в header.",
+            "After verification, sign in with your account.",
+            "Tasdiqlashdan keyin akkauntingiz bilan kiring.",
+            "После подтверждения войдите в аккаунт.",
           ),
         },
       ]}

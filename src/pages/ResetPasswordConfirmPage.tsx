@@ -11,39 +11,47 @@ export function ResetPasswordConfirmPage() {
   return (
     <AuthShell
       badge={tr("Auth Module", "Autentifikatsiya moduli", "Модуль аутентификации")}
-      title={tr("Confirm password reset", "Parol tiklashni tasdiqlash", "Подтверждение сброса пароля")}
-      description={tr(
-        "Finalize reset flow with username, confirmation code, and new password.",
-        "Reset oqimini username, tasdiqlash kodi va yangi parol bilan yakunlang.",
-        "Завершите flow сброса с username, кодом подтверждения и новым паролем.",
+      title={tr(
+        "Confirm password reset",
+        "Parol tiklashni tasdiqlash",
+        "Подтверждение сброса пароля",
       )}
-      nextStep={tr("login with new password", "yangi parol bilan kirish", "войти с новым паролем")}
+      description={tr(
+        "Enter the code and set a new password.",
+        "Kod va yangi parolni kiriting.",
+        "Введите код и задайте новый пароль.",
+      )}
+      nextStep={tr(
+        "login with new password",
+        "yangi parol bilan kirish",
+        "войти с новым паролем",
+      )}
       points={[
         {
           icon: KeySquare,
-          title: tr("ResetPasswordConfirmDTO compatible", "ResetPasswordConfirmDTO mos", "Совместимо с ResetPasswordConfirmDTO"),
+          title: tr("Use your code", "Kodni kiriting", "Введите код"),
           description: tr(
-            "Payload fields: username, confirmCode, password.",
-            "Payload maydonlari: username, confirmCode, password.",
-            "Поля payload: username, confirmCode, password.",
+            "Enter the confirmation code you received.",
+            "Olingan tasdiqlash kodini kiriting.",
+            "Введите полученный код подтверждения.",
           ),
         },
         {
           icon: CheckCheck,
-          title: tr("Controller mapped", "Controller ulanishi tayyor", "Controller подключен"),
+          title: tr("Set a new password", "Yangi parol o'rnating", "Задайте новый пароль"),
           description: tr(
-            "Uses POST /api/v1/auth/reset-password-confirm endpoint.",
-            "POST /api/v1/auth/reset-password-confirm endpointidan foydalanadi.",
-            "Использует endpoint POST /api/v1/auth/reset-password-confirm.",
+            "Choose a strong password you can remember.",
+            "Eslab qolish oson, kuchli parol tanlang.",
+            "Выберите надёжный пароль, который запомните.",
           ),
         },
         {
           icon: ShieldAlert,
-          title: tr("Validation included", "Validatsiya kiritilgan", "Валидация включена"),
+          title: tr("Stay protected", "Xavfsiz qoling", "Будьте в безопасности"),
           description: tr(
-            "Strong password and confirm match checks are handled client-side.",
-            "Kuchli parol va tasdiq mosligi tekshiruvi client tomonda bajariladi.",
-            "Проверки сильного пароля и совпадения подтверждения выполняются на клиенте.",
+            "Keep your password private and secure.",
+            "Parolingizni hech kimga bermang.",
+            "Не сообщайте пароль другим.",
           ),
         },
       ]}

@@ -13,37 +13,41 @@ export function ResetPasswordPage() {
       badge={tr("Auth Module", "Autentifikatsiya moduli", "Модуль аутентификации")}
       title={tr("Request password reset", "Parolni tiklashni so'rash", "Запрос сброса пароля")}
       description={tr(
-        "Start reset flow by sending username to backend reset-password endpoint.",
-        "Reset oqimini username ni backend reset-password endpointiga yuborishdan boshlang.",
-        "Начните flow сброса, отправив username в backend reset-password endpoint.",
+        "Enter your username to receive a reset code.",
+        "Reset kodini olish uchun username ni kiriting.",
+        "Введите username, чтобы получить код сброса.",
       )}
-      nextStep={tr("enter confirmation code", "tasdiqlash kodini kiriting", "введите код подтверждения")}
+      nextStep={tr(
+        "enter confirmation code",
+        "tasdiqlash kodini kiriting",
+        "введите код подтверждения",
+      )}
       points={[
         {
           icon: UserRoundSearch,
-          title: tr("ResetPasswordDTO compatible", "ResetPasswordDTO mos", "Совместимо с ResetPasswordDTO"),
+          title: tr("Find your account", "Akkauntni topish", "Найдите аккаунт"),
           description: tr(
-            "Payload field is exactly: username.",
-            "Payload maydoni aniq: username.",
-            "Поле payload строго: username.",
+            "Use the same username you registered with.",
+            "Ro'yxatdan o'tgan username bilan kiriting.",
+            "Введите username, который использовали при регистрации.",
           ),
         },
         {
           icon: RotateCcwKey,
-          title: tr("Controller mapped", "Controller ulanishi tayyor", "Controller подключен"),
+          title: tr("Get reset code", "Reset kodi oling", "Получите код"),
           description: tr(
-            "Uses POST /api/v1/auth/reset-password with global header language.",
-            "Global header tili bilan POST /api/v1/auth/reset-password dan foydalanadi.",
-            "Использует POST /api/v1/auth/reset-password с глобальным языком в header.",
+            "We will send a code to help you reset your password.",
+            "Parolni tiklash uchun kod yuboramiz.",
+            "Мы отправим код для сброса пароля.",
           ),
         },
         {
           icon: ArrowUpDown,
-          title: tr("Flow continuity", "Flow davomiyligi", "Непрерывность flow"),
+          title: tr("Continue to next step", "Keyingi bosqich", "Следующий шаг"),
           description: tr(
-            "Username is reused automatically in reset confirmation page.",
-            "Username reset tasdiqlash sahifasida avtomatik qayta ishlatiladi.",
-            "Username автоматически переиспользуется на странице подтверждения сброса.",
+            "Use the code on the confirmation page.",
+            "Kodni tasdiqlash sahifasida ishlating.",
+            "Используйте код на странице подтверждения.",
           ),
         },
       ]}

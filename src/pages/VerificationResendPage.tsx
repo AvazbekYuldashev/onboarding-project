@@ -10,44 +10,44 @@ export function VerificationResendPage() {
 
   return (
     <AuthShell
-      badge={tr("Auth Module", "Autentifikatsiya moduli", "РњРѕРґСѓР»СЊ Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё")}
+      badge={tr("Auth Module", "Autentifikatsiya moduli", "Модуль аутентификации")}
       title={tr(
-        "Resend registration verification",
-        "Ro'yxatdan o'tish tasdiqini qayta yuborish",
-        "РџРѕРІС‚РѕСЂРЅР°СЏ РѕС‚РїСЂР°РІРєР° РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ СЂРµРіРёСЃС‚СЂР°С†РёРё",
+        "Resend verification code",
+        "Tasdiqlash kodini qayta yuborish",
+        "Повторная отправка кода",
       )}
       description={tr(
-        "Use username to request a new registration verification code from backend.",
-        "Username orqali backenddan yangi ro'yxatdan o'tish tasdiq kodini so'rang.",
-        "РСЃРїРѕР»СЊР·СѓР№С‚Рµ username, С‡С‚РѕР±С‹ Р·Р°РїСЂРѕСЃРёС‚СЊ РЅРѕРІС‹Р№ РєРѕРґ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ СЂРµРіРёСЃС‚СЂР°С†РёРё СЃ backend.",
+        "If the code didn't arrive, request a new one here.",
+        "Agar kod kelmasa, shu yerda qayta so'rang.",
+        "Если код не пришёл, запросите новый здесь.",
       )}
-      nextStep={tr("verify with code", "kod bilan tasdiqlash", "РїРѕРґС‚РІРµСЂРґРёС‚СЊ РєРѕРґРѕРј")}
+      nextStep={tr("verify with code", "kod bilan tasdiqlash", "подтвердить кодом")}
       points={[
         {
           icon: MailQuestion,
-          title: tr("EmailResendDTO compatible", "EmailResendDTO mos", "РЎРѕРІРјРµСЃС‚РёРјРѕ СЃ EmailResendDTO"),
+          title: tr("Check your inbox", "Pochta/boxni tekshiring", "Проверьте почту"),
           description: tr(
-            "Payload field is exactly: username.",
-            "Payload maydoni aniq: username.",
-            "РџРѕР»Рµ payload СЃС‚СЂРѕРіРѕ: username.",
+            "Sometimes the code arrives with a short delay.",
+            "Ba'zan kod biroz kechikib keladi.",
+            "Иногда код приходит с небольшой задержкой.",
           ),
         },
         {
           icon: Send,
-          title: tr("Controller mapped", "Controller ulanishi tayyor", "Controller РїРѕРґРєР»СЋС‡РµРЅ"),
+          title: tr("Request again", "Qayta so'rang", "Запросите снова"),
           description: tr(
-            "Uses POST /api/v1/auth/registration/email-verification-resend.",
-            "POST /api/v1/auth/registration/email-verification-resend dan foydalanadi.",
-            "РСЃРїРѕР»СЊР·СѓРµС‚ POST /api/v1/auth/registration/email-verification-resend.",
+            "We will send a new verification code.",
+            "Biz yangi tasdiqlash kodini yuboramiz.",
+            "Мы отправим новый код подтверждения.",
           ),
         },
         {
           icon: MailCheck,
-          title: tr("Registration continuity", "Registratsiya davomiyligi", "РќРµРїСЂРµСЂС‹РІРЅРѕСЃС‚СЊ СЂРµРіРёСЃС‚СЂР°С†РёРё"),
+          title: tr("Use the new code", "Yangi kodni kiriting", "Введите новый код"),
           description: tr(
-            "Works with pending registration username saved after sign-up.",
-            "Sign-updan keyin saqlangan pending username bilan ishlaydi.",
-            "Р Р°Р±РѕС‚Р°РµС‚ СЃ pending username, СЃРѕС…СЂР°РЅРµРЅРЅС‹Рј РїРѕСЃР»Рµ sign-up.",
+            "Enter the latest code on the verification page.",
+            "Eng so'nggi kodni tasdiqlash sahifasida kiriting.",
+            "Введите последний код на странице подтверждения.",
           ),
         },
       ]}

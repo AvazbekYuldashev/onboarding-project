@@ -13,37 +13,37 @@ export function LoginPage() {
       badge={tr("Auth Module", "Autentifikatsiya moduli", "Модуль аутентификации")}
       title={tr("Secure login", "Xavfsiz kirish", "Безопасный вход")}
       description={tr(
-        "Authenticate users via backend endpoint and store active session in Zustand store.",
-        "Foydalanuvchini backend endpoint orqali tasdiqlab, faol sessiyani Zustand store da saqlaydi.",
-        "Аутентифицирует пользователя через backend endpoint и сохраняет активную сессию в Zustand store.",
+        "Sign in to access your dashboard and features.",
+        "Dashboard va funksiyalarga kirish uchun tizimga kiring.",
+        "Войдите, чтобы получить доступ к вашему кабинету и функциям.",
       )}
-      nextStep={tr("open protected modules", "himoyalangan modullarni ochish", "открыть защищенные модули")}
+      nextStep={tr("open protected modules", "himoyalangan modullarni ochish", "открыть защищённые модули")}
       points={[
         {
           icon: UserCheck,
-          title: tr("AuthDTO compatible", "AuthDTO mos", "Совместимо с AuthDTO"),
+          title: tr("Quick access", "Tezkor kirish", "Быстрый доступ"),
           description: tr(
-            "Payload fields are exactly: username, password.",
-            "Payload maydonlari aniq: username, password.",
-            "Поля payload строго: username, password.",
+            "Use your username and password to sign in.",
+            "Username va parol bilan kiring.",
+            "Используйте username и пароль для входа.",
           ),
         },
         {
           icon: ShieldCheck,
-          title: tr("ProfileDTO mapping", "ProfileDTO mapping", "Маппинг ProfileDTO"),
+          title: tr("Secure session", "Xavfsiz sessiya", "Безопасная сессия"),
           description: tr(
-            "Login response maps to session model including jwt and role.",
-            "Login javobi jwt va role bilan session modelga map qilinadi.",
-            "Ответ login маппится в модель сессии с jwt и role.",
+            "We keep you signed in while you use the app.",
+            "Ilovadan foydalanganda sizni tizimda ushlab turamiz.",
+            "Мы сохраняем вход, пока вы пользуетесь приложением.",
           ),
         },
         {
           icon: KeyRound,
-          title: tr("Language aware requests", "Tilga mos so'rovlar", "Запросы с учетом языка"),
+          title: tr("Your language", "Sizning tilingiz", "Ваш язык"),
           description: tr(
-            "Language is controlled globally from the header toggle.",
-            "Til header dagi global toggle orqali boshqariladi.",
-            "Язык управляется глобальным переключателем в header.",
+            "Switch language anytime from the top bar.",
+            "Tilni istalgan payt yuqori paneldan o'zgartiring.",
+            "Меняйте язык в любой момент в верхней панели.",
           ),
         },
       ]}
